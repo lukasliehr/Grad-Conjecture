@@ -1,0 +1,1413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore the nested pressure surfaces in the explicit model for Counterexamples to Grad's conjecture.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Nested pressure surfaces — interactive figure</title>
+<style>
+:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+
+  --font-sans: -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E");
+
+
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html > body {
+
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive > .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align="right"]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align="center"]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget > :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls > .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls > .form-label > :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled="true"]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type="file"] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type="file"]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type="file"]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type="color"] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type="checkbox"]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: "";
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type="radio"]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: "";
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 6px;
+  border: 1px solid light-dark(#888888, #b0b0b0);
+  border-radius: var(--radius-full);
+  background: #999999;
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 1px solid light-dark(#888888, #b0b0b0);
+  border-radius: var(--radius-full);
+  background: #999999;
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed="true"],
+  [aria-selected="true"],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed="true"], [aria-selected="true"], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type="file"]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type="color"] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="time"],
+    [type="week"]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 14px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget > svg {
+  width: 100%;
+}
+
+
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html>body{padding:0}
+html > body { max-width: 1280px; margin: 0 auto; padding: 24px; }
+.figure-note { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--border); max-width: 90ch; line-height: 1.6; }
+.figure-note p { margin: 8px 0; }
+@media (max-width: 620px) { html > body { padding: 16px; } }
+</style>
+</head>
+<body>
+<main>
+<div id="figure-one-explorer">
+  <h2>Figure 1 · Nested pressure surfaces</h2>
+  <div class="f1-plots">
+    <section aria-labelledby="f1-torus-title">
+      <h3 id="f1-torus-title">Torus cutaway · drag to rotate</h3>
+      <div class="f1-scene">
+        <canvas id="f1-canvas" role="img" aria-label="Rotatable cutaway of three nested pressure surfaces, with the circular magnetic axis and one closed field line."></canvas>
+        <svg id="f1-overlay" class="f1-chart" aria-hidden="true"></svg>
+      </div>
+      <div class="f1-legend text-small">
+        <span><span class="f1-line f1-axis"></span>Magnetic axis Γ · B = 0</span>
+        <span><span class="f1-line f1-orbit"></span>Closed field line</span>
+      </div>
+    </section>
+    <section aria-labelledby="f1-section-title">
+      <h3 id="f1-section-title">Matching cross-section</h3>
+      <svg id="f1-section" class="f1-chart" role="img" aria-label="Elliptical cross-section in the radial and vertical directions. The highlighted middle ellipse is the same closed field line as in the cutaway."></svg>
+      <div class="f1-legend text-small" id="f1-radii-legend"></div>
+    </section>
+  </div>
+  <div class="f1-readout text-small tabular-nums" id="f1-readout" aria-live="polite"></div>
+  <div class="text-small text-destructive" id="f1-warning" role="status" hidden></div>
+  <h3>Model parameters</h3>
+  <div class="viz-controls" id="f1-model-controls"></div>
+  <details id="f1-details" open>
+    <summary class="cursor-interaction">Surface radii, cross-section, and viewing angles</summary>
+    <div class="viz-controls" id="f1-extra-controls"></div>
+  </details>
+  <span id="f1-color-probe" hidden></span>
+</div>
+<style>
+  #figure-one-explorer { color: var(--foreground); }
+  #figure-one-explorer .f1-plots { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 20px; }
+  #figure-one-explorer .f1-plots section { min-width: 0; }
+  #figure-one-explorer .f1-scene { position: relative; height: 300px; }
+  #figure-one-explorer canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+  #figure-one-explorer canvas:active { cursor: grabbing; }
+  #figure-one-explorer #f1-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #figure-one-explorer #f1-section { display: block; width: 100%; height: 300px; }
+  #figure-one-explorer .f1-chart text { fill: var(--foreground); font-size: 12px; }
+  #figure-one-explorer .f1-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 8px; }
+  #figure-one-explorer .f1-legend > span { display: inline-flex; gap: 6px; align-items: center; }
+  #figure-one-explorer .f1-line { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--foreground); }
+  #figure-one-explorer .f1-axis { border-top-style: dashed; }
+  #figure-one-explorer .f1-orbit { border-color: var(--viz-series-2); }
+  #figure-one-explorer .f1-swatch { display: inline-block; width: 13px; height: 13px; }
+  #figure-one-explorer .f1-readout { margin: 16px 0; display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  #figure-one-explorer .f1-control-caption { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  #figure-one-explorer .f1-control-caption output { white-space: nowrap; font-weight: 500; }
+  #figure-one-explorer details { margin-top: 14px; }
+  #figure-one-explorer details > .viz-controls { margin-top: 16px; }
+  @media (max-width: 620px) {
+    #figure-one-explorer .f1-plots { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    #figure-one-explorer .f1-scene { height: 280px; }
+    #figure-one-explorer #f1-section { height: 290px; }
+  }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('figure-one-explorer');
+  const canvas = root.querySelector('#f1-canvas');
+  const overlay = root.querySelector('#f1-overlay');
+  const section = root.querySelector('#f1-section');
+  const readout = root.querySelector('#f1-readout');
+  const warning = root.querySelector('#f1-warning');
+  const TAU = 2 * Math.PI;
+  const radians = x => x * Math.PI / 180;
+  const defaults = { N:8, L:0.65, rho:0.40, delta:0.425, alpha0:30, lambda:0.375,
+    inner:0.32, middle:0.66, outer:1, zeta:90, psi:0, cut:135, azimuth:-90, elevation:33, zoom:1 };
+  const descriptors = [
+    ['N','Number of repeated cells, N',1,32,1,0,''],
+    ['L','Cell length divided by 2π, L',0.1,2,0.01,2,''],
+    ['rho','Ellipse shape, ρ*',0,0.85,0.005,3,''],
+    ['delta','Variation in orientation, δ*',-1.2,1.2,0.005,3,' rad'],
+    ['alpha0','Baseline orientation, α₀',-90,90,1,0,'°'],
+    ['lambda','Asymmetric part of the turn, λ',0,0.5,0.005,3,''],
+    ['inner','Inner surface radius, r₁',0.05,0.61,0.01,2,''],
+    ['middle','Middle surface / field-line radius, r₂',0.37,0.95,0.01,2,''],
+    ['outer','Outer surface radius, r₃',0.71,1.5,0.01,2,''],
+    ['zeta','Position within a cell, ζ',0,360,1,0,'°'],
+    ['psi','Pressure on the axis, ψₐ',-2,2,0.05,2,''],
+    ['cut','Cutaway angle',15,270,1,0,'°'],
+    ['azimuth','View from around the torus',-180,180,1,0,'°'],
+    ['elevation','View from above or below',-80,80,1,0,'°'],
+    ['zoom','Magnification',0.65,1.5,0.01,2,'×']
+  ];
+  let state = {...defaults};
+  const clamp = (v,a,b) => Math.max(a, Math.min(b,v));
+  function normalize(candidate) {
+    const s = {...defaults};
+    for (const [key,,min,max] of descriptors) {
+      if (Number.isFinite(candidate[key])) s[key] = clamp(candidate[key],min,max);
+    }
+    // Radius limits depend on the other surfaces, rather than their initial positions.
+    s.outer = clamp(Number.isFinite(candidate.outer)?candidate.outer:defaults.outer,0.2,1.5);
+    s.middle = clamp(Number.isFinite(candidate.middle)?candidate.middle:defaults.middle,0.1,s.outer-0.05);
+    s.inner = clamp(Number.isFinite(candidate.inner)?candidate.inner:defaults.inner,0.05,s.middle-0.05);
+    s.N = Math.round(s.N);
+    return s;
+  }
+  function restore(snapshot) {
+    if (!snapshot || snapshot.modelContent?.figure !== 'figure-1' || snapshot.modelContent?.version !== 2) return;
+    state = normalize({...snapshot.modelContent.parameters,...snapshot.privateContent?.view});
+  }
+  const storageKey = 'figure-one-explorer-v2';
+  try { restore(JSON.parse(localStorage.getItem(storageKey))); } catch {}
+
+  const controls = {};
+  descriptors.forEach(([key,label,min,max,step,digits,unit],i) => {
+    const wrap = document.createElement('label');
+    wrap.className = 'form-label';
+    wrap.htmlFor = 'f1-'+key;
+    wrap.innerHTML = '<span class="f1-control-caption"><span>'+label+'</span><output class="tabular-nums" for="f1-'+key+'" id="f1-value-'+key+'"></output></span><input class="form-range" id="f1-'+key+'" type="range" min="'+min+'" max="'+max+'" step="'+step+'">';
+    root.querySelector(i<6?'#f1-model-controls':'#f1-extra-controls').appendChild(wrap);
+    const input = wrap.querySelector('input'), output = wrap.querySelector('output');
+    controls[key] = {input,output,digits,unit};
+    input.addEventListener('input', () => {
+      state[key] = Number(input.value);
+      sync();
+      schedule(!['azimuth','elevation','zoom','psi'].includes(key));
+    });
+    input.addEventListener('change', () => { announce(); save(); });
+  });
+  function sync() {
+    for (const key of ['inner','middle','outer']) {
+      const lim = key==='inner'?[0.05,state.middle-0.05]:key==='middle'?[state.inner+0.05,state.outer-0.05]:[state.middle+0.05,1.5];
+      controls[key].input.min=lim[0].toFixed(2); controls[key].input.max=lim[1].toFixed(2);
+    }
+    for (const [key,c] of Object.entries(controls)) {
+      c.input.value=state[key];
+      c.output.textContent=state[key].toFixed(c.digits)+c.unit;
+      c.input.setAttribute('aria-valuetext', c.output.textContent);
+    }
+  }
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(() => {
+      const {azimuth,elevation,zoom,...parameters}=state;
+      try { localStorage.setItem(storageKey, JSON.stringify({modelContent:{figure:'figure-1',version:2,parameters,angleUnits:{alpha0:'degrees',zeta:'degrees',delta:'radians'}},privateContent:{view:{azimuth,elevation,zoom}}})); } catch {}
+    },150);
+  }
+
+  function angle(zeta) { return radians(state.alpha0)+state.delta*(Math.cos(zeta)+state.lambda*Math.sin(2*zeta)); }
+  function transverse(r,theta,zeta) {
+    const a=angle(zeta),c=Math.cos(a),s=Math.sin(a),u=Math.sqrt(1+state.rho),v=Math.sqrt(1-state.rho);
+    const x=r*Math.cos(theta),y=r*Math.sin(theta);
+    return [(u*c*c+v*s*s)*x+(u-v)*s*c*y, (u-v)*s*c*x+(u*s*s+v*c*c)*y];
+  }
+  function torus(r,theta,phi) {
+    const [x,z]=transverse(r,theta,state.N*phi),R=state.N*state.L;
+    return [(R+x)*Math.cos(phi),(R+x)*Math.sin(phi),z];
+  }
+  function cutPositions() {
+    const middle=(radians(state.zeta)-TAU)/state.N,step=radians(state.cut)/3;
+    return {middle,outer:middle+step,inner:middle-step,left:middle-2*step,end:middle-2*step+TAU};
+  }
+  function announce() {
+    const ratio=Math.sqrt((1+state.rho)/(1-state.rho));
+    readout.innerHTML='<span>Axis radius NL: '+(state.N*state.L).toFixed(2)+'</span><span>Ellipse axis ratio: '+ratio.toFixed(2)+':1</span><span>Pressure on the field line: '+(state.psi-state.middle**2).toFixed(4)+'</span>';
+    // At a fixed azimuth the radial half-width is r sqrt(1 + rho cos(2 alpha)).
+    let maxWidth=0;
+    for(let i=0;i<720;i++) maxWidth=Math.max(maxWidth,state.outer*Math.sqrt(1+state.rho*Math.cos(2*angle(TAU*i/720))));
+    const intersects=state.N*state.L<=maxWidth;
+    warning.hidden=!intersects;
+    warning.textContent=intersects?'The tube reaches the rotation axis at these values. Increase N or L, or decrease the outer radius.':'';
+    canvas.setAttribute('aria-label','Torus with '+state.N+' repeated cells, axis radius '+(state.N*state.L).toFixed(2)+', ellipse axis ratio '+ratio.toFixed(2)+':1, and pressure surfaces at radii '+[state.inner,state.middle,state.outer].join(', ')+'.');
+  }
+
+  // An orthographic, depth-tested renderer for the exact parametrization used in Figure 1.
+  const gl=canvas.getContext('webgl',{alpha:true,antialias:true,preserveDrawingBuffer:true});
+  let program,locations,meshes=[],glFailure=false;
+  const vertexSource='attribute vec3 aPosition; attribute vec3 aNormal; uniform vec3 uRight; uniform vec3 uUp; uniform vec3 uEye; uniform vec3 uScale; varying float vLight; void main(){gl_Position=vec4(dot(aPosition,uRight)*uScale.x,dot(aPosition,uUp)*uScale.y,-dot(aPosition,uEye)*uScale.z,1.0); vLight=0.78+0.22*max(0.0,dot(normalize(aNormal),normalize(vec3(-0.4,-0.55,0.76))));}';
+  const fragmentSource='precision mediump float; uniform vec3 uColor; uniform float uUnlit; varying float vLight; void main(){gl_FragColor=vec4(uColor*mix(vLight,1.0,uUnlit),1.0);}';
+  function shader(type,source) {
+    const s=gl.createShader(type); gl.shaderSource(s,source); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    return s;
+  }
+  try {
+    if(!gl) throw new Error('WebGL is unavailable');
+    program=gl.createProgram();
+    gl.attachShader(program,shader(gl.VERTEX_SHADER,vertexSource));
+    gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragmentSource));gl.linkProgram(program);
+    if(!gl.getProgramParameter(program,gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
+    gl.useProgram(program);
+    locations={};
+    for(const key of ['uRight','uUp','uEye','uScale','uColor','uUnlit']) locations[key]=gl.getUniformLocation(program,key);
+    for(const key of ['aPosition','aNormal']) locations[key]=gl.getAttribLocation(program,key);
+    gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.clearColor(0,0,0,0);
+  } catch(error) { glFailure=true; root.dataset.renderStatus='webgl-unavailable'; }
+  const subtract=(a,b)=>a.map((x,i)=>x-b[i]);
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+  const dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0);
+  const unit=a=>{const n=Math.hypot(...a)||1;return a.map(x=>x/n);};
+  function surface(fn,nu,nv) {
+    const points=[];
+    for(let i=0;i<=nu;i++) for(let j=0;j<=nv;j++) points.push(fn(i/nu,j/nv));
+    const data=[];
+    for(let i=0;i<nu;i++) for(let j=0;j<nv;j++) {
+      const a=points[i*(nv+1)+j],b=points[(i+1)*(nv+1)+j],c=points[(i+1)*(nv+1)+j+1],d=points[i*(nv+1)+j+1];
+      const n=unit(cross(subtract(b,a),subtract(d,a)));
+      for(const p of [a,b,c,a,c,d]) data.push(...p,...n);
+    }
+    return data;
+  }
+  function upload(data,color,unlit=false,overlay=false) {
+    if(glFailure) return;
+    const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);
+    meshes.push({buffer,count:data.length/6,color,unlit,overlay});
+  }
+  function tube(fn,thickness,color,segments=160,overlay=false) {
+    const data=surface((t,a)=>{
+      const p=fn(t),tangent=unit(subtract(fn(t+0.00001),fn(t-0.00001)));
+      const seed=Math.abs(tangent[2])<0.9?[0,0,1]:[0,1,0];
+      const normal=unit(cross(tangent,seed)),binormal=cross(tangent,normal),theta=TAU*a;
+      return p.map((x,i)=>x+thickness*(normal[i]*Math.cos(theta)+binormal[i]*Math.sin(theta)));
+    },segments,6);
+    upload(data,color,true,overlay);
+  }
+  let colors={};
+  function resolveColors() {
+    const probe=root.querySelector('#f1-color-probe');
+    const c=document.createElement('canvas');c.width=c.height=1;
+    const ctx=c.getContext('2d');
+    const color=css=>{probe.style.color=css;ctx.clearRect(0,0,1,1);ctx.fillStyle=getComputedStyle(probe).color;ctx.fillRect(0,0,1,1);return Array.from(ctx.getImageData(0,0,1,1).data).slice(0,3).map(x=>x/255);};
+    colors={outer:color('color-mix(in srgb, var(--viz-series-1) 27%, var(--background))'),
+      middle:color('color-mix(in srgb, var(--viz-series-1) 48%, var(--background))'),
+      inner:color('color-mix(in srgb, var(--viz-series-1) 78%, var(--background))'),
+      outline:color('var(--viz-series-1)'),orbit:color('var(--viz-series-2)'),axis:color('var(--foreground)')};
+  }
+  const asCss=c=>'rgb('+c.map(x=>Math.round(x*255)).join(',')+')';
+  function build() {
+    if(glFailure) return;
+    meshes.forEach(m=>gl.deleteBuffer(m.buffer));meshes=[];
+    const cuts=cutPositions(),radii=[state.outer,state.middle,state.inner],names=['outer','middle','inner'];
+    const starts=[cuts.outer,cuts.middle,cuts.inner],ends=[cuts.end,cuts.outer,cuts.middle];
+    const angularResolution=Math.max(200,24*state.N);
+    for(let i=0;i<3;i++) {
+      const r=radii[i],next=radii[i+1]||0,a=starts[i],b=ends[i];
+      upload(surface((p,t)=>torus(r,TAU*t,a+(b-a)*p),Math.max(12,Math.ceil((b-a)/TAU*angularResolution)),72),names[i]);
+      for(const phi of [a,cuts.end]) {
+        upload(surface((s,t)=>torus(next+(r-next)*s,TAU*t,phi),3,72),names[i],true);
+        tube(t=>torus(r,TAU*t,phi),0.006*state.outer,'outline',120);
+      }
+    }
+    const lineWidth=Math.max(0.018*state.outer,(state.N*state.L)*0.004);
+    // Emphasize the complete selected orbit, as in the printed figure.
+    tube(t=>torus(state.middle,TAU*t,cuts.middle),lineWidth,'orbit',200,true);
+    tube(t=>torus(0,0,cuts.left+(cuts.inner-cuts.left)*t),lineWidth*0.62,'axis',80);
+    // Dashed hidden axis, as in the printed figure. Kept on top deliberately.
+    for(let i=0;i<120;i++) {
+      const a=TAU*i/120,b=a+TAU/120*0.48,mid=(a+b)/2;
+      const relative=((mid-cuts.left)%TAU+TAU)%TAU;
+      if(relative<cuts.inner-cuts.left) continue;
+      tube(t=>torus(0,0,a+(b-a)*t),lineWidth*0.28,'axis',2,true);
+    }
+    root.dataset.triangles=String(meshes.reduce((n,m)=>n+m.count/3,0));
+  }
+  function camera() {
+    const az=radians(state.azimuth),el=radians(state.elevation);
+    const right=[-Math.sin(az),Math.cos(az),0],up=[-Math.sin(el)*Math.cos(az),-Math.sin(el)*Math.sin(az),Math.cos(el)],eye=[Math.cos(el)*Math.cos(az),Math.cos(el)*Math.sin(az),Math.sin(el)];
+    const width=canvas.clientWidth,height=canvas.clientHeight,R=state.N*state.L,minor=state.outer*Math.sqrt(1+state.rho);
+    const bound=R+minor,verticalBound=R*Math.abs(Math.sin(el))+minor;
+    const scale=Math.min((width-32)/(2*bound),(height-44)/(2*verticalBound))*state.zoom;
+    return {right,up,eye,width,height,scale,depth:bound*2};
+  }
+  function drawScene() {
+    const c=camera(),dpr=Math.min(window.devicePixelRatio||1,2);
+    if(canvas.width!==Math.round(c.width*dpr)||canvas.height!==Math.round(c.height*dpr)) {canvas.width=Math.round(c.width*dpr);canvas.height=Math.round(c.height*dpr);}
+    if(!glFailure) {
+      gl.viewport(0,0,canvas.width,canvas.height);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+      gl.useProgram(program);gl.uniform3fv(locations.uRight,c.right);gl.uniform3fv(locations.uUp,c.up);gl.uniform3fv(locations.uEye,c.eye);
+      gl.uniform3fv(locations.uScale,[2*c.scale/c.width,2*c.scale/c.height,1/c.depth]);
+      for(const m of meshes) {
+        if(m.overlay) gl.disable(gl.DEPTH_TEST); else gl.enable(gl.DEPTH_TEST);
+        gl.bindBuffer(gl.ARRAY_BUFFER,m.buffer);gl.enableVertexAttribArray(locations.aPosition);gl.enableVertexAttribArray(locations.aNormal);
+        gl.vertexAttribPointer(locations.aPosition,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(locations.aNormal,3,gl.FLOAT,false,24,12);
+        gl.uniform3fv(locations.uColor,colors[m.color]);gl.uniform1f(locations.uUnlit,m.unlit?1:0);gl.drawArrays(gl.TRIANGLES,0,m.count);
+      }
+      gl.enable(gl.DEPTH_TEST);root.dataset.renderStatus='ready';
+    }
+    drawOverlay(c);
+  }
+  const ns='http://www.w3.org/2000/svg';
+  function svgEl(tag,attrs={},text) {const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;return e;}
+  function project(p,c) {return [c.width/2+c.scale*dot(p,c.right),c.height/2-c.scale*dot(p,c.up)];}
+  function arrow(parent,p,q,color) {
+    const delta=subtract(q,p),n=Math.hypot(...delta)||1,dx=delta[0]/n,dy=delta[1]/n;
+    parent.appendChild(svgEl('path',{d:'M'+p.join(',')+'L'+q.join(','),stroke:color,'stroke-width':2,fill:'none'}));
+    const pts=[q,[q[0]-7*dx+3.5*dy,q[1]-7*dy-3.5*dx],[q[0]-7*dx-3.5*dy,q[1]-7*dy+3.5*dx]];
+    parent.appendChild(svgEl('polygon',{points:pts.map(x=>x.join(',')).join(' '),fill:color}));
+  }
+  function drawOverlay(c) {
+    overlay.replaceChildren();overlay.setAttribute('viewBox','0 0 '+c.width+' '+c.height);
+    overlay.appendChild(svgEl('rect',{x:0.5,y:0.5,width:c.width-1,height:c.height-1,fill:'none',stroke:'var(--border)'}));
+    if(glFailure) {
+      overlay.appendChild(svgEl('text',{x:c.width/2,y:c.height/2,'text-anchor':'middle'},'3D rendering is unavailable in this browser.'));
+      return;
+    }
+    const phi=cutPositions().middle;
+    const p=project(torus(state.middle,Math.PI/2,phi),c),q=project(torus(state.middle,Math.PI/2+0.17,phi),c);
+    // Direction along the highlighted field line; same increasing theta in both panels.
+    if(p.every((v,i)=>v>10&&v<[c.width,c.height][i]-10)&&q.every((v,i)=>v>10&&v<[c.width,c.height][i]-10)) arrow(overlay,p,q,'var(--viz-series-2)');
+  }
+  function drawSection() {
+    const width=section.clientWidth,height=section.clientHeight;
+    section.setAttribute('viewBox','0 0 '+width+' '+height);section.replaceChildren();
+    const curves=[state.outer,state.middle,state.inner].map(r=>Array.from({length:181},(_,i)=>transverse(r,TAU*i/180,radians(state.zeta))));
+    const maxx=Math.max(...curves[0].map(p=>Math.abs(p[0]))),maxy=Math.max(...curves[0].map(p=>Math.abs(p[1])));
+    const scale=Math.min((width-98)/(2*maxx),(height-98)/(2*maxy));
+    const cx=width/2+8,cy=height/2-2,toScreen=p=>[cx+p[0]*scale,cy-p[1]*scale];
+    const box={x:0.5,y:0.5,width:width-1,height:height-1};
+    section.appendChild(svgEl('rect',{...box,'data-chart-frame':'',fill:'none',stroke:'var(--border)'}));
+    const names=['outer','middle','inner'];
+    for(let i=0;i<3;i++) {
+      section.appendChild(svgEl('path',{d:curves[i].map((p,j)=>(j?'L':'M')+toScreen(p).map(x=>x.toFixed(3)).join(',')).join('')+'Z',fill:asCss(colors[names[i]]),stroke:i===1?'var(--viz-series-2)':'var(--viz-series-1)','stroke-width':i===1?2.4:1.1,'data-radius':names[i]}));
+    }
+    const xExtent=maxx*scale+13,yExtent=maxy*scale+13;
+    section.appendChild(svgEl('line',{x1:cx-xExtent,y1:cy,x2:cx+xExtent,y2:cy,stroke:'var(--foreground)','stroke-opacity':0.33}));
+    section.appendChild(svgEl('line',{x1:cx,y1:cy-yExtent,x2:cx,y2:cy+yExtent,stroke:'var(--foreground)','stroke-opacity':0.33}));
+    section.appendChild(svgEl('text',{x:Math.min(width-9,cx+xExtent),y:cy-9,'text-anchor':'end',class:'axis-title','data-axis':'x'},'eᵣ'));
+    section.appendChild(svgEl('text',{x:cx+9,y:Math.max(16,cy-yExtent-7),class:'axis-title','data-axis':'y'},'e_z'));
+    const p=toScreen(transverse(state.middle,Math.PI/2,radians(state.zeta))),q=toScreen(transverse(state.middle,Math.PI/2+0.18,radians(state.zeta)));
+    arrow(section,p,q,'var(--viz-series-2)');
+    section.appendChild(svgEl('circle',{cx,cy,r:3.5,fill:'var(--foreground)'}));
+    section.appendChild(svgEl('text',{x:cx-10,y:cy+18,'text-anchor':'end'},'Γ'));
+    section.appendChild(svgEl('text',{x:width/2,y:height-14,'text-anchor':'middle'},state.rho===0?'Circular cross-section':'Orientation α = '+(angle(radians(state.zeta))*180/Math.PI).toFixed(1)+'°'));
+    const legend=root.querySelector('#f1-radii-legend');legend.replaceChildren();
+    for(const key of ['inner','middle','outer']) {
+      const entry=document.createElement('span'),swatch=document.createElement('span');swatch.className='f1-swatch';
+      swatch.style.background=key==='middle'?'var(--viz-series-2)':asCss(colors[key]);
+      entry.append(swatch,document.createTextNode('r = '+state[key].toFixed(2)));legend.appendChild(entry);
+    }
+  }
+  let frame=0,needBuild=false;
+  function schedule(rebuild=false) {
+    needBuild=needBuild||rebuild;
+    if(frame) return;
+    frame=requestAnimationFrame(()=>{frame=0;if(needBuild){build();needBuild=false;}drawScene();drawSection();});
+  }
+  let drag=null;
+  canvas.addEventListener('pointerdown',e=>{drag={id:e.pointerId,x:e.clientX,y:e.clientY,az:state.azimuth,el:state.elevation};canvas.setPointerCapture(e.pointerId);});
+  canvas.addEventListener('pointermove',e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    state.azimuth=((drag.az-(e.clientX-drag.x)*0.5+540)%360)-180;
+    state.elevation=clamp(drag.el+(e.clientY-drag.y)*0.4,-80,80);
+    sync();schedule();
+  });
+  const endDrag=e=>{if(drag&&e.pointerId===drag.id){drag=null;save();}};
+  canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+  // Only an explicit wheel gesture over the plot changes magnification.
+  canvas.addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();state.zoom=clamp(state.zoom*Math.exp(-e.deltaY*0.002),0.65,1.5);sync();schedule();save();},{passive:false});
+  new ResizeObserver(()=>schedule()).observe(root.querySelector('.f1-plots'));
+  const themeChanged=()=>{resolveColors();schedule();};
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeChanged);
+  new MutationObserver(themeChanged).observe(document.documentElement,{attributes:true,attributeFilter:['class','style','data-theme']});
+  resolveColors();sync();announce();schedule(true);
+})();
+</script>
+
+<div class="figure-note">
+<p>Drag the torus to rotate it. Move the sliders to change the model parameters;
+use the additional controls to adjust the surface radii, cross-section, and viewing angles.</p>
+<p><strong>About the model.</strong> This figure shows the explicit model used in Figure 1 of
+<em>Counterexamples to Grad's conjecture</em>. The nonlinear correction is omitted.
+The initial eccentricity is enlarged for visibility and lies outside the theorem's
+small-eccentricity regime. The slider ranges allow exploration of the model;
+they do not assert that the theorem applies at every setting.</p>
+<p><a href="https://github.com/lukasliehr/test_g">Back to the repository</a></p>
+</div>
+<noscript>JavaScript must be enabled to display and interact with this figure.</noscript>
+</main>
+</body>
+</html>
