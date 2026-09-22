@@ -1,6 +1,6 @@
-# Grad
+# Counterexamples to Grad's conjecture
 
-This repository contains a Lean 4 formalization of the main result of the paper [*Counterexamples to Grad's conjecture*](https://github.com/lukasliehr/Grad-Conjecture/blob/main/Paper/Paper.pdf) by **Javier Gómez-Serrano**, **Lukas Liehr** and **Mitchell A. Taylor**. The mathematical statement that is formalized in Lean reads as follows.
+This repository contains a Lean 4 formalization of the main result of the paper [*Counterexamples to Grad's conjecture*](https://arxiv.org/abs/2609.24739) by **Javier Gómez-Serrano**, **Lukas Liehr** and **Mitchell A. Taylor**. The mathematical statement that is formalized in Lean reads as follows.
 
 **Theorem.** Fix a cell length $L>0$. There are a compact interval $I\subset(0,\tfrac12)$ with nonempty interior and an integer $N_0\geq1$ such that, for every $N\geq N_0$, there is a smooth family of embedded solid tori carrying smooth magnetohydrostatic equilibria $(B_{N,\lambda},P_{N,\lambda})$, indexed by $\lambda\in I$, with the following properties:
 
@@ -12,11 +12,11 @@ This repository contains a Lean 4 formalization of the main result of the paper 
 The fields satisfy $B\times(\nabla\times B)+\nabla P=0$ and $\nabla\cdot B=0$, and $B$ is tangent to the boundary. The moduli statement concerns varying embedded domains, with the equivalence relation specified in the paper and the showcase.
 
 <p align="center">
-  <a href="https://lukasliehr.github.io/test_g/InteractiveFigure/"><strong>Open the interactive figure</strong></a>
+  <a href="https://lukasliehr.github.io/Grad-Conjecture/InteractivePlot/"><strong>Open the interactive figure</strong></a>
 </p>
 
 <p align="center">
-  <a href="https://lukasliehr.github.io/test_g/InteractiveFigure/">
+  <a href="https://lukasliehr.github.io/Grad-Conjecture/InteractivePlot/">
     <img src="InteractivePlot/preview-high-resolution.png" alt="Interactive figure">
   </a>
 </p>
