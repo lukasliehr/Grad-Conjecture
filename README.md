@@ -32,7 +32,6 @@ The two showcases are alternative presentations and should not be imported toget
 
 - [LeanCode/](LeanCode/README.md): the complete accepted proof library, organized into Nash–Moser iteration, smooth dependence, Fourier analysis, analytic weights and inverses, Banach calculus, topology, the MHS application, and supporting analysis. Each topic has a mathematical guide.
 - [Comparator/](Comparator/README.md): checks of the displayed definitions, theorem statements, equivalence with the expanded statement, and transitive proof dependencies, together with a guide to the paper–Lean correspondence.
-- [Paper/](Paper/): the paper in PDF format.
 
 
 ## Mathematics in LeanCode

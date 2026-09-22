@@ -1,6 +1,6 @@
 # Correspondence with the paper
 
-This guide explains how Theorem 1.1 of [the paper](../Paper/Paper.pdf) and its definitions are represented by `Grad.MainTarget.mainTheoremStatement` and the root [Showcase.lean](../Showcase.lean). The proved result is `Grad.OriginalMainConsumer.actualOriginal_mainTheorem`; the root [Showcase_WithProofs.lean](../Showcase_WithProofs.lean) presents its conclusions in the paper's notation.
+This guide explains how Theorem 1.1 of [the paper](https://arxiv.org/abs/2609.24739) and its definitions are represented by `Grad.MainTarget.mainTheoremStatement` and the root [Showcase.lean](../Showcase.lean). The proved result is `Grad.OriginalMainConsumer.actualOriginal_mainTheorem`; the root [Showcase_WithProofs.lean](../Showcase_WithProofs.lean) presents its conclusions in the paper's notation.
 
 ## Definitions and conclusions
 
